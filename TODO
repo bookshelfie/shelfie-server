@@ -1,0 +1,15 @@
+
+API:
+  ☐ @critical GET /api/v1/book : finds book in the db and publishes position to the right queue. @created(19-09-15 15:19)
+  ☐ @critical PUT /api/v1/book : updates book position in the db. @created(19-09-15 15:19)
+  ☐ @critical POST /api/v1/book : adds book to the db. @created(19-09-15 15:19)
+  ☐ @critical DELETE /api/v1/book : removes book from the shelf. @created(19-09-15 15:20)
+
+UI:
+  ☐ @critical Basic UI to query for a book. @created(19-09-15 15:20)
+  ☐ @critical Basic UI to add a book. @created(19-09-15 15:21)
+  ☐ @critical Basic UI to delete a book. @created(19-09-15 15:21)
+
+Misc:
+  ☐ @low nginx @created(19-09-15 15:22)
+  ☐ @low gunicorn @created(19-09-15 15:22)
