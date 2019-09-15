@@ -4,14 +4,20 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pylint = "*"
+pytest = "*"
+black = "*"
 
 [packages]
 flask = "*"
 sqlalchemy = "*"
 flask-sqlalchemy = "*"
-psycopg2 = "*"
 flask-mqtt = "*"
 psycopg2-binary = "*"
+flask-migrate = "*"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true
