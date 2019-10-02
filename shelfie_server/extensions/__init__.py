@@ -5,3 +5,4 @@
 
 from shelfie_server.extensions.migrate import migrate
 from shelfie_server.extensions.mqtt import mqtt
+from shelfie_server.extensions.admin import admin
