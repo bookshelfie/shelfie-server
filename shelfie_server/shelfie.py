@@ -5,7 +5,7 @@
 
 
 from flask import Flask
-
+from flask_admin.contrib.sqla import ModelView
 
 def create_app(config=None):
     """shelfie app factory method"""
@@ -13,6 +13,7 @@ def create_app(config=None):
     app.config.from_object("config.base")
     if config:
         app.config.from_object(config)
+    # attempt to read a config from the instance folder.
     app.config.from_pyfile("config.py", silent=True)
     app.config.from_envvar("SHELFIE_SERVER_CONFIG", silent=True)
 
@@ -26,10 +27,12 @@ def create_app(config=None):
     from shelfie_server.models.book import Book # pylint: disable=unused-import
 
     from shelfie_server.extensions import mqtt
-
     mqtt.init_app(app)
+    from shelfie_server.extensions import admin
+
+    admin.init_app(app)
+    admin.add_view(ModelView(Book, db.session))
     from shelfie_server.blueprints import api
 
-    app.register_blueprint(api, url_prefix="/api")
     app.register_blueprint(api, url_prefix="/api/v1")
     return app
