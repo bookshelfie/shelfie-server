@@ -15,6 +15,58 @@ from shelfie_server.extensions.mqtt import mqtt
 api = Blueprint("api", __name__)
 
 
+@api.route("/alert/<shelf>")
+def alert(shelf=None):
+    """Alert System"""
+    _type = request.data.get("type", "info")
+    message = {
+        "type": _type.lower()
+    }
+    if shelf is None:
+        mqtt.publish("shelfie/alert/all", json.dumps(message))
+    else:
+        mqtt.publish("shelfie/alert/{}".format(shelf), json.dumps(message))
+
+
+@api.route("/progress/<shelf>")
+def show_progress(shelf=None):
+    """Show progress bar."""
+    progress = request.data.get("progress", 0)
+    message = {
+        "progress": progress
+    }
+    if shelf is None:
+        # does it make sense to send the progress to all the shelves?
+        mqtt.publish("shelfie/progress/all", json.dumps(message))
+    else:
+        mqtt.publish("shelfie/progress/{}".format(shelf), json.dumps(message))
+    response = {"success": True}
+    return jsonify(response)
+
+
+@api.route("/highlight/<shelf>/")
+def highlight(shelf=None):
+    """Highlight tenth LEDs so that it is easy to index."""
+    message = {"steps": request.data.get("steps", 10 )}
+    if shelf is None:
+        mqtt.publish("shelfie/highlight/all", json.dumps(message))
+    else:
+        mqtt.publish("shelfie/highlight/{}".format(shelf.lower()), json.dumps(message))
+    response = {"success": True}
+    return jsonify(response)
+
+
+@api.route("/clear/<shelf>/")
+def clear(shelf=None):
+    """Route that clears all LEDs for one or all shelves."""
+    if shelf is None:
+        mqtt.publish("shelfie/clear/{}".format(shelf.lower()), "")
+    else:
+        mqtt.publish("shelfie/clear/all", "")
+    response = {"success": True}
+    return jsonify(response)
+
+
 @api.route("/book/", methods=["GET", "POST", "PUT", "DELETE"])
 def manage_book():
     """Book endpoint."""
