@@ -24,4 +24,4 @@ def handle_message(client, userdata, message):
 @mqtt.on_publish()
 def on_publish(client, userdata, mid):
     """jandle event on publishing to a topic"""
-    print(f"{client}, {userdata}, {mid} being published.")
+    print("{}, {}, {} being published.".format(client, userdata, mid))
