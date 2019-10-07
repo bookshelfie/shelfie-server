@@ -8,6 +8,10 @@ from flask_mqtt import Mqtt
 
 mqtt = Mqtt()
 
+@mqtt.on_subscribe()
+def handle_subscribe(*args, **kwargs):
+    """Handle subscription"""
+    pass
 
 @mqtt.on_connect()
 def handle_connect(client, userdata, flags, rc):
