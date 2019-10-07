@@ -15,6 +15,7 @@ flask-sqlalchemy = "*"
 flask-mqtt = "*"
 psycopg2-binary = "*"
 flask-migrate = "*"
+flask-admin = "*"
 
 [requires]
 python_version = "3.7"
