@@ -98,6 +98,7 @@ def manage_book():
     if request.method == "GET":
         if title is None:
             return abort(400)
+        current_app.logger.info("Searching for a book named `{}`".format(title))
         book = Book.query.filter(Book.title.like(title)).first()
         if book:
             # write to mqtt
