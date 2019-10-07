@@ -31,7 +31,20 @@ def create_app(config=None):
     from shelfie_server.extensions import admin
 
     admin.init_app(app)
-    admin.add_view(ModelView(Book, db.session))
+
+    class CustomView(ModelView):
+        list_template = 'list.html'
+        create_template = 'create.html'
+        edit_template = 'edit.html'
+
+
+    class BookAdmin(CustomView):
+        column_searchable_list = (
+            'author', 'isbn', 'title','slots','publisher','_format')
+        column_filters = (
+            'author', 'title', 'slots', 'publisher', '_format', 'shelf')
+
+    admin.add_view(BookAdmin(Book, db.session))
     from shelfie_server.blueprints import api
 
     app.register_blueprint(api, url_prefix="/api/v1")
