@@ -78,13 +78,12 @@ def manage_book():
             # write to mqtt
             response = {"book": {"title": book.title, "author": book.author}}
             if book.shelf and book.slots:
-                response["shelf"] = book.shelf
-                response["slot_start"] = book.slots
+                # response["shelf"] = book.shelf
+                response["positions"] = book.slots
                 mqtt.publish("shelfie/{}".format(book.shelf.lower()), json.dumps(response))
             else:
-                #
                 message = {"color": (255, 0, 0), "blink": True, "times": 2}
-                mqtt.publish("ALERT/PRIME", json.dumps(message))
+                mqtt.publish("shelfie/alert", json.dumps(message))
             return jsonify(response)
         else:
             return abort(404)
