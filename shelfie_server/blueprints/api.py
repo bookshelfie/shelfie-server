@@ -96,6 +96,8 @@ def manage_book():
     # pylint: disable=no-member
     title = request.args.get("title")
     if request.method == "GET":
+        if title is None:
+            return abort(400)
         book = Book.query.filter(Book.title.like(title)).first()
         if book:
             # write to mqtt
@@ -117,6 +119,7 @@ def manage_book():
         else:
             return abort(404)
     elif request.method == "PUT":
+        title = request.args.get("title")
         shelf = request.args.get("shelf")
         slots = request.args.get("slots")
         book = Book.query.filter(Book.title.like(title)).first()
@@ -130,6 +133,7 @@ def manage_book():
         else:
             return abort(404)
     elif request.method == "POST":
+        title = request.args.get("title")
         isbn = request.args.get("isbn")
         author = request.args.get("author")
         publisher = request.args.get("publisher")
