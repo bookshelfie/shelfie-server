@@ -16,7 +16,7 @@ class Book(db.Model):
 
     __tablename__ = "books"
     # pylint: disable=no-member
-    _id = db.Column("id", db.Integer, primary_key=True)
+    _id = db.Column("id", db.Integer, primary_key=True, autoincrement=True)
     isbn = db.Column(db.String(25), nullable=True)
     title = db.Column(db.String(255), nullable=False)
     # TODO: move author(s) to external table.
@@ -31,6 +31,7 @@ class Book(db.Model):
     shelf = db.Column(db.String(10), nullable=True)
     # a slot entry will be in the m:n format.
     slots = db.Column(db.String(10), nullable=True)
+    placement = db.Column(db.String(25), default="vertical") # horizontal or vertical
     sold = db.Column(db.BOOLEAN, default=False)
     comment = db.Column(db.TEXT)
     created_on = db.Column(db.TIMESTAMP, default=datetime.datetime.now)
