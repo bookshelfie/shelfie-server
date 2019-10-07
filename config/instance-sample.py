@@ -7,3 +7,4 @@ MQTT_PASSWORD="mosquitto_password"
 MQTT_KEEPALIVE=15
 MQTT_TLS_ENABLED=False
 DEBUG=False
+SHELF_LABELS=["a","b","c"]

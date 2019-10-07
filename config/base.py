@@ -10,3 +10,4 @@ MQTT_CLIENT_ID="shelfie_server"
 # MQTT_PASSWORD="mosquitto_password"
 MQTT_KEEPALIVE=15
 MQTT_TLS_ENABLED=False
+SHELF_LABELS=["a","b","c"]
