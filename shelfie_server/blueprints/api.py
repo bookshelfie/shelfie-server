@@ -99,7 +99,7 @@ def manage_book():
         if title is None:
             return abort(400)
         current_app.logger.info("Searching for a book named `{}`".format(title))
-        book = Book.query.filter(Book.title.like(title)).first()
+        book = Book.query.filter(Book.title.ilike("%{}%".format(title))).first()
         if book:
             current_app.logger.info("Book found: {}".format(book.title))
             # write to mqtt
@@ -125,7 +125,7 @@ def manage_book():
         title = request.args.get("title")
         shelf = request.args.get("shelf")
         slots = request.args.get("slots")
-        book = Book.query.filter(Book.title.like(title)).first()
+        book = Book.query.filter(Book.title.ilike("%{}%".format(title))).first()
         if book:
             if shelf and slots:
                 book.shelf = shelf
