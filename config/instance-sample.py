@@ -1,0 +1,9 @@
+SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://username:password@postgresql_host/shelfie_db_name"
+MQTT_CLIENT_ID="client_name"
+MQTT_BROKER_URL="mosquitto_host"
+MQTT_BROKER_PORT=1883
+MQTT_USERNAME="mosquitto_username"
+MQTT_PASSWORD="mosquitto_password"
+MQTT_KEEPALIVE=15
+MQTT_TLS_ENABLED=False
+DEBUG=False
