@@ -17,7 +17,12 @@ api = Blueprint("api", __name__)
 
 @api.route("/alert/<shelf>")
 def alert(shelf=None):
-    """Alert System"""
+    """Alert System
+    Expected keys in request.data:
+        blink: boolean
+        color: string,
+        times: int, default=2
+    """
     _type = request.data.get("type", "info")
     message = {
         "type": _type.lower()
@@ -30,10 +35,13 @@ def alert(shelf=None):
 
 @api.route("/progress/<shelf>")
 def show_progress(shelf=None):
-    """Show progress bar."""
+    """Show progress bar.
+    Expected Keys:
+        progress: float
+    """
     progress = request.data.get("progress", 0)
     message = {
-        "progress": progress
+        "progress": float(progress)
     }
     if shelf is None:
         # does it make sense to send the progress to all the shelves?
@@ -46,7 +54,10 @@ def show_progress(shelf=None):
 
 @api.route("/highlight/<shelf>/")
 def highlight(shelf=None):
-    """Highlight tenth LEDs so that it is easy to index."""
+    """Highlight nth LEDs so that it is easy to index.
+    Expected Keys:
+        n: int, default=10
+    """
     message = {"steps": request.data.get("steps", 10 )}
     if shelf is None:
         mqtt.publish("shelfie/highlight/all", json.dumps(message))
