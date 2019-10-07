@@ -19,3 +19,25 @@ Shelfie needs the following:
 
 1. Mosquitto MQTT
 2. Postgresql Server (can use mariadb or sqlite3, but I recommend postgres.
+
+
+## Deployment
+
+### gunicorn service file
+
+```ini
+[Unit]
+Description=shelfie voice gunicorn
+After=network.target
+
+[Service]
+User=user
+Group=group
+WorkingDirectory=/home/user/shelfie-server
+Environment="PATH=/home/user/shelfie-server/env/bin"
+ExecStart=/home/user/shelfie-server/env/bin/gunicorn --workers 1 --bind 0.0.0.0:13001 wsgi:app
+
+[Install]
+WantedBy=multi-user.target
+
+```
