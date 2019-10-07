@@ -20,19 +20,21 @@ def alert(shelf=None):
     """Alert System
     Expected keys in request.data:
         blink: boolean
-        color: string,
+        kind: string,
         times: int, default=2
     """
-    _type = request.data.get("type", "info")
+
     message = {
-        "type": _type.lower()
+        "kind": request.data.get("kind", "info"),
+        "blink": request.data.get("blink", True),
+        "times": request.data.get("times", 2)
     }
     if shelf is None:
         for shelf_lbl in current_app.config["SHELF_LABELS"]:
-            mqtt.publish("shelfie/alert/{}".format(shelf_lbl), json.dumps(message))
+            mqtt.publish("shelfie/alert/{}".format(shelf_lbl.lower()), json.dumps(message))
     else:
-        mqtt.publish("shelfie/alert/{}".format(shelf), json.dumps(message))
-    response = {"success": True}
+        mqtt.publish("shelfie/alert/{}".format(shelf.lower()), json.dumps(message))
+    response = {"success.lower()": True}
     return jsonify(response)
 
 
@@ -51,9 +53,9 @@ def show_progress(shelf=None):
     if shelf is None:
         for shelf_lbl in current_app.config["SHELF_LABELS"]:
             # does it make sense to send the progress to all the shelves?
-            mqtt.publish("shelfie/progress/{}".format(shelf_lbl), json.dumps(message))
+            mqtt.publish("shelfie/progress/{}".format(shelf_lbl.lower()), json.dumps(message))
     else:
-        mqtt.publish("shelfie/progress/{}".format(shelf), json.dumps(message))
+        mqtt.publish("shelfie/progress/{}".format(shelf.lower()), json.dumps(message))
     response = {"success": True}
     return jsonify(response)
 
@@ -151,8 +153,9 @@ def manage_book():
         db.session.add(book)
         db.session.commit()
         response = {"success": True}
-        message = {"color": (0, 255, 0), "blink": True, "times": 3}
-        mqtt.publish("ALERT/PRIME", json.dumps(message))
+        message = {"color": (0, 255, 128), "blink": True, "times": 3}
+        for shelf_lbl in current_app.config["SHELF_LABELS"]:
+            mqtt.publish("alert/{}".format(shelf_lbl.lower()), json.dumps(message))
         return jsonify(response)
     else: # if request.method == "DELETE":
         return abort(404)
