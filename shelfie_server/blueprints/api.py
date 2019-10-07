@@ -101,6 +101,7 @@ def manage_book():
         current_app.logger.info("Searching for a book named `{}`".format(title))
         book = Book.query.filter(Book.title.like(title)).first()
         if book:
+            current_app.logger.info("Book found: {}".format(book.title))
             # write to mqtt
             response = {
                 "book":
@@ -118,6 +119,7 @@ def manage_book():
                 mqtt.publish("shelfie/alert", json.dumps(message))
             return jsonify(response)
         else:
+            current_app.logger.warning("no match for '{}'".format(title))
             return abort(404)
     elif request.method == "PUT":
         title = request.args.get("title")
