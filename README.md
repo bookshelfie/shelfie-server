@@ -8,7 +8,7 @@ an independent method to index the bookshelf, without relying on GoodReads.
 In the future, this API will be tied in with Alexa, and Telegram for a bot that
 I can use to query it. I will also make a Web UI for it.
 
-## Shelfie Bookshelf Search Engine Flask Server
+## Shelfie Flask Server
 
 This repository contains the microservice that provides the core
 functionality of `shelfie`.
@@ -22,7 +22,6 @@ Shelfie needs the following:
 
 
 ## Deployment
-
 
 ### Notes for the Raspberry Pi
 
@@ -56,7 +55,7 @@ User=user
 Group=group
 WorkingDirectory=/home/user/shelfie-server
 Environment="PATH=/home/user/shelfie-server/env/bin"
-ExecStart=/home/user/shelfie-server/env/bin/gunicorn --workers 1 --bind 0.0.0.0:13001 wsgi:app
+ExecStart=/home/user/shelfie-server/env/bin/gunicorn --workers 1 --bind 0.0.0.0:13001 wsgi
 
 [Install]
 WantedBy=multi-user.target
@@ -77,3 +76,7 @@ location / {
     proxy_redirect http://localhost:13001;
 }
 ```
+
+## Development Notes
+
+1. Ensure **all** routes end with `/`.
